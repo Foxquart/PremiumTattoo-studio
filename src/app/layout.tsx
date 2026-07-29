@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Tattoo Studio",
+  title: "Good Luck Tattoo Studio | Premium Ink Art in Miramar Beach",
   description:
-    "Explore a realm of artistic expression at our Tattoo Studio. Immerse yourself in the fusion of creativity and craftsmanship as our skilled artists bring your vision to life. From vibrant designs to intricate black and gray work, we're here to make your inked memories unforgettable. Welcome to Ink Chronicles, where self-expression knows no bounds.",
+    "Award-winning tattoo studio specializing in fine-line, realism, and custom bespoke ink. 15,000+ tattoos completed by master artisans. Book your session today at Good Luck Tattoo Studio, Miramar Beach.",
+  keywords: "tattoo studio, tattoo artist, fine line tattoo, realism tattoo, miramar beach tattoo, piercing, custom tattoo",
   icons: [
     {
       url: "/icons/favicon-dark.svg",
@@ -28,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="scroll-smooth">
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

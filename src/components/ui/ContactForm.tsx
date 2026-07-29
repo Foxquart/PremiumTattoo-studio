@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { formFields } from '../../data/dataForm';
+import { Send, CheckCircle } from 'lucide-react';
 
 export default function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -34,62 +35,73 @@ export default function ContactForm() {
   }
 
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col xs:w-[300px] sm:w-[400px] lg:w-[458px] m-auto mb-[60px]"
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col w-full max-w-md mx-auto gap-1"
+    >
+      {formFields.map(field => (
+        <React.Fragment key={field.id}>
+          <label
+            htmlFor={field.id}
+            className="font-syne text-xs uppercase tracking-widest text-gray-400 font-semibold mb-1.5 mt-4"
+          >
+            {field.label}
+          </label>
+          {field.type === 'textarea' ? (
+            <textarea
+              id={field.id}
+              name={field.name}
+              required={field.required}
+              disabled={isSubmitted}
+              rows={4}
+              className="glass-input rounded-xl px-4 py-3 text-sm font-sans resize-none"
+              placeholder="Tell us about your dream tattoo..."
+            />
+          ) : (
+            <input
+              id={field.id}
+              name={field.name}
+              type={field.type}
+              required={field.required}
+              disabled={isSubmitted}
+              className="glass-input rounded-xl px-4 py-3.5 text-sm font-sans"
+              placeholder={
+                field.type === 'email'
+                  ? 'your@email.com'
+                  : field.type === 'tel'
+                  ? '+1 (555) 000-0000'
+                  : 'Your full name'
+              }
+            />
+          )}
+        </React.Fragment>
+      ))}
+
+      <p className="text-gray-500 mt-3 text-xs font-sans">
+        By submitting, you agree to our privacy policy.
+      </p>
+
+      <button
+        type="submit"
+        disabled={isSubmitted}
+        className={`mt-6 flex items-center justify-center gap-2.5 font-syne text-sm uppercase tracking-widest font-bold py-4 px-8 rounded-full transition-all duration-300 ${
+          isSubmitted
+            ? 'bg-green-900/30 text-green-400 border border-green-500/30 cursor-default'
+            : 'bg-gradient-to-r from-darkOrange to-amber-600 text-black hover:shadow-glow-orange hover:scale-[1.02]'
+        }`}
       >
-        {formFields.map(field => (
-          <React.Fragment key={field.id}>
-            <label
-              htmlFor={field.id}
-              className="text-gray font-playfair text-[16px]"
-            >
-              {field.label}
-            </label>
-            {field.type === 'textarea' ? (
-              <textarea
-                id={field.id}
-                name={field.name}
-                required={field.required}
-                disabled={isSubmitted}
-                className={`rounded-[4px] border h-[110px] pl-[10px] outline-none ${
-                  isSubmitted
-                    ? 'border-gray text-gray bg-transparent'
-                    : 'border-darkOrange bg-transparent text-gray focus:border-white'
-                }`}
-              ></textarea>
-            ) : (
-              <input
-                id={field.id}
-                name={field.name}
-                type={field.type}
-                required={field.required}
-                disabled={isSubmitted}
-                className={`rounded-[4px] border h-[50px] mb-[16px] pl-[10px] outline-none ${
-                  isSubmitted
-                    ? 'border-gray text-gray bg-transparent'
-                    : 'border-darkOrange bg-transparent text-gray focus:border-white'
-                }`}
-              />
-            )}
-          </React.Fragment>
-        ))}
-        <p className="text-gray mt-[13px] xs:text-[12px]">
-          Giving your information you agree with privacy policy.
-        </p>
-        <button
-          type="submit"
-          disabled={isSubmitted}
-          className={`text-[24px] xs:w-[220px] sm:w-[220px] lg:w-[220px] rounded-[50px] py-4 flex items-center justify-center mt-[45px] ml-auto mr-auto border-2 ${
-            isSubmitted
-              ? 'text-gray border-gray bg-transparent'
-              : 'text-darkOrange border-darkOrange bg-transparent hover:bg-darkOrange hover:text-black'
-          }`}
-        >
-          {isSubmitted ? 'Submitted' : 'Submit'}
-        </button>
-      </form>
-    </>
+        {isSubmitted ? (
+          <>
+            <CheckCircle className="w-5 h-5" />
+            Request Sent
+          </>
+        ) : (
+          <>
+            <Send className="w-4 h-4" />
+            Send Request
+          </>
+        )}
+      </button>
+    </form>
   );
 }
